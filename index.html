@@ -1,138 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>College Bus Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Bus Management Dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="dashboard">
 
-<div class="dashboard">
-
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <h2>Bus Dashboard</h2>
-    <ul>
-      <li class="tab active" data-tab="trackLive">Track Live</li>
-      <li class="tab" data-tab="seatReservation">Seat Reservation</li>
-      <li class="tab" data-tab="tripLogs">Trip Logs</li>
-      <li class="tab" data-tab="settings">Settings</li>
-    </ul>
-  </div>
-
-  <!-- Main Content -->
-  <div class="mainContent">
-
-    <!-- Track Live Tab -->
-    <div class="tabContent" id="trackLive" style="display: block;">
-      <h3>Track Live</h3>
-      <div class="busInfo">
-        <p>Bus Location: Chandigarh</p>
-        <p>Speed: 0 km/hr</p>
-        <p>Last Stop Time: 07:15 AM</p>
-      </div>
-      <div class="mapPlaceholder">Map Placeholder</div>
-
-      <!-- Driver Info -->
-      <div class="driverInfo">
-        <p><strong>Driver:</strong> Trilochan Singh &nbsp;&nbsp; | &nbsp;&nbsp; <strong>Mobile:</strong> 8283025622</p>
-      </div>
-
-      <!-- Route Table -->
-      <div class="routeDetails">
-        <h3>Route Details - Route 5 (Chandigarh)</h3>
-        <table id="routeTable">
-          <thead>
-            <tr>
-              <th>S.No</th>
-              <th>Station</th>
-              <th>Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- JS will populate rows -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Seat Reservation Tab -->
-    <div class="tabContent" id="seatReservation" style="display: none;">
-      <h3>Seat Reservation</h3>
-
-      <div class="dropdowns">
-        <div>
-          <label for="locationDropdown">Select Location:</label>
-          <select id="locationDropdown">
-            <option value="">--Choose Location--</option>
-          </select>
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h2>Dashboard</h2>
+            <ul>
+                <li class="tab active" data-tab="trackLive">Track Live</li>
+                <li class="tab" data-tab="seatReservation">Seat Reservation</li>
+                <li class="tab" data-tab="routeDetails">Route Details</li>
+                <li class="tab" data-tab="settings">Settings</li>
+            </ul>
         </div>
-        <div>
-          <label for="routeDropdown">Select Route:</label>
-          <select id="routeDropdown">
-            <option value="">--Choose Route--</option>
-          </select>
+
+        <!-- MAIN CONTENT -->
+        <div class="mainContent">
+
+            <!-- TRACK LIVE TAB -->
+            <div class="tabContent" id="trackLive" style="display: block;">
+                <h3>Track Live</h3>
+                <div id="liveInfo">
+                    <p><strong>Bus Location:</strong> <span id="busLocation">-</span></p>
+                    <p><strong>Speed:</strong> <span id="busSpeed">0</span> km/hr</p>
+                    <p><strong>Last Stop Time:</strong> <span id="lastStopTime">-</span></p>
+                </div>
+
+                <!-- PLACE & ROUTE SELECTION -->
+                <div class="routeSelection">
+                    <div>
+                        <label for="placeDropdown">Select Place:</label>
+                        <select id="placeDropdown">
+                            <option value="">--Choose Place--</option>
+                            <option value="Chandigarh">Chandigarh</option>
+                            <option value="Panchkula">Panchkula</option>
+                            <option value="Mohali">Mohali</option>
+                            <option value="Ropar">Ropar</option>
+                            <option value="Kurali">Kurali</option>
+                            <option value="Kharar">Kharar</option>
+                            <option value="Banur">Banur</option>
+                            <option value="Rajpura">Rajpura</option>
+                            <option value="Mandi Gobindgarh">Mandi Gobindgarh</option>
+                            <option value="Khanna">Khanna</option>
+                            <option value="Sirhind">Sirhind</option>
+                            <option value="Fatehgarh Sahib">Fatehgarh Sahib</option>
+                            <option value="Bassi Pathan">Bassi Pathan</option>
+                            <option value="Samrala">Samrala</option>
+                            <option value="Ludhiana">Ludhiana</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="routeDropdown">Select Route:</label>
+                        <select id="routeDropdown">
+                            <option value="">--Choose Route--</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- DRIVER INFO -->
+                <div class="driverInfo" id="driverInfo"></div>
+
+                <!-- ROUTE TABLE -->
+                <div class="routeDetails">
+                    <h4 id="routeTitle">Route Details</h4>
+                    <table id="routeTable">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Station</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamic rows go here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- MAP PLACEHOLDER -->
+                <div class="mapPlaceholder">Map Placeholder</div>
+            </div>
+
+            <!-- SEAT RESERVATION TAB -->
+            <div class="tabContent" id="seatReservation" style="display: none;">
+                <h3>Seat Reservation</h3>
+                <div id="seatContainer"></div>
+                <div class="legend">
+                    <span class="legend-box available"></span> Available
+                    <span class="legend-box reserved"></span> Reserved
+                    <span class="legend-box selected"></span> Selected
+                    <span class="legend-box safety"></span> Women Safety
+                </div>
+                <div class="buttons">
+                    <button id="bookBtn">Book Seat</button>
+                    <button id="cancelBtn">Cancel Seat</button>
+                    <button id="alertBtn">Women Safety Alert</button>
+                </div>
+                <div id="message"></div>
+            </div>
+
+            <!-- ROUTE DETAILS TAB -->
+            <div class="tabContent" id="routeDetails" style="display: none;">
+                <h3>Route Overview</h3>
+                <div class="routeSelection">
+                    <p>Select a place and route in Track Live to view here as well.</p>
+                </div>
+            </div>
+
+            <!-- SETTINGS TAB -->
+            <div class="tabContent" id="settings" style="display: none;">
+                <h3>Settings</h3>
+                <div class="settingsOptions">
+                    <label>
+                        Change Password:
+                        <input type="password" placeholder="Enter new password">
+                        <button>Update</button>
+                    </label>
+                    <label>
+                        Virtual Tracking:
+                        <input type="checkbox">
+                    </label>
+                    <label>
+                        Geofence:
+                        <input type="checkbox">
+                    </label>
+                    <button>Logout</button>
+                </div>
+            </div>
+
         </div>
-      </div>
-
-      <div id="busTiming"></div>
-
-      <div class="legend">
-        <span class="legend-box available"></span>Available
-        <span class="legend-box reserved"></span>Reserved
-        <span class="legend-box selected"></span>Selected
-        <span class="legend-box safety"></span>Women Safety
-      </div>
-
-      <div id="seatContainer"></div>
-
-      <div class="buttons">
-        <button id="bookBtn">Book Seat</button>
-        <button id="cancelBtn">Cancel Seat</button>
-        <button id="alertBtn">Women Safety Alert</button>
-      </div>
-
-      <div id="message"></div>
     </div>
 
-    <!-- Trip Logs Tab -->
-    <div class="tabContent" id="tripLogs" style="display: none;">
-      <h3>Trip Logs</h3>
-      <table id="tripLogsTable">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Route</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Total Passengers</th>
-            <th>Alerts</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <!-- Settings Tab -->
-    <div class="tabContent" id="settings" style="display: none;">
-      <h3>Settings</h3>
-      <div class="settingsOptions">
-        <label><input type="checkbox" id="virtualTracking"> Enable Virtual Tracking</label>
-        <label><input type="checkbox" id="alertSetting"> Enable Alerts</label>
-        <label>New Password: <input type="password" id="newPassword"></label>
-        <button id="saveSettingsBtn">Save Settings</button>
-        <button id="logoutBtn">Logout</button>
-      </div>
-    </div>
-
-    <!-- Notifications Panel -->
-    <h3>Notifications</h3>
-    <div id="notifications"></div>
-
-  </div>
-</div>
-
-<script src="script.js"></script>
+    <!-- ROUTES FILE -->
+    <script src="routes.js"></script>
+    <!-- MAIN SCRIPT -->
+    <script src="script.js"></script>
 </body>
 </html>
